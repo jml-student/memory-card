@@ -9,7 +9,12 @@ export default function App() {
   return (
     <>
       <Header score={score} highScore={highScore} />
-      <Cards setScore={setScore} setHighScore={setHighScore} />
+      <Cards
+        score={score}
+        setScore={setScore}
+        highScore={highScore}
+        setHighScore={setHighScore}
+      />
       <Footer />
     </>
   )
