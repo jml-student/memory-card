@@ -2,32 +2,30 @@ import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
 
 export function Cards({ score, setScore, highScore, setHighScore }) {
-  const pokemonIds = [3, 6, 9, 12, 15, 18, 22, 24, 26, 28, 30, 38]
-  const imgs = []
+  const [imgs, setImgs] = useState([])
   const [names, setNames] = useState([])
   const [clickedNames, setClickedNames] = useState([])
-
-  for (let i = 0; i < pokemonIds.length; i++) {
-    const id = pokemonIds[i]
-    imgs.push(
-      `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
-    )
-  }
+  const pokemonIds = [3, 6, 9, 12, 15, 18, 22, 24, 26, 28, 30, 38]
 
   useEffect(() => {
-    const fetchNames = async () => {
+    const fetchData = async () => {
+      const fetchedImgs = []
       const fetchedNames = []
+
       for (let i = 0; i < pokemonIds.length; i++) {
         const id = pokemonIds[i]
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
         const data = await response.json()
         const name = data.name[0].toUpperCase() + data.name.slice(1)
         fetchedNames.push(name)
+        fetchedImgs.push(
+          `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
+        )
       }
+      setImgs(fetchedImgs)
       setNames(fetchedNames)
     }
-
-    fetchNames()
+    fetchData()
   }, [])
 
   const handleCardClick = (name) => {
@@ -40,6 +38,29 @@ export function Cards({ score, setScore, highScore, setHighScore }) {
         setHighScore(score + 1)
       }
       setClickedNames([...clickedNames, name])
+    }
+    const imgsCopy = [...imgs]
+    const namesCopy = [...names]
+    shuffleArrays(imgsCopy, namesCopy)
+    setImgs(imgsCopy)
+    setNames(namesCopy)
+  }
+
+  const shuffleArrays = (firstArray, secondArray) => {
+    let currentIndex = firstArray.length
+
+    while (currentIndex != 0) {
+      let randomIndex = Math.floor(Math.random() * currentIndex)
+      currentIndex--
+
+      ;([firstArray[currentIndex], firstArray[randomIndex]] = [
+        firstArray[randomIndex],
+        firstArray[currentIndex],
+      ]),
+        ([secondArray[currentIndex], secondArray[randomIndex]] = [
+          secondArray[randomIndex],
+          secondArray[currentIndex],
+        ])
     }
   }
 
