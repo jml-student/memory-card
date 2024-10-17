@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 export function Header({ score, highScore }) {
   return (
     <header>
@@ -7,7 +9,7 @@ export function Header({ score, highScore }) {
   )
 }
 
-Header.arguments.propTypes = {
-  score: Number,
-  highScore: Number,
+Header.propTypes = {
+  score: PropTypes.number.isRequired,
+  highScore: PropTypes.number.isRequired,
 }

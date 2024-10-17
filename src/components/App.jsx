@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import Header from './Header'
-import Cards from './Cards'
-import Footer from './Footer'
+import { Header } from './Header'
+import { Cards } from './Cards'
+import { Footer } from './Footer'
 
 export default function App() {
   const [score, setScore] = useState(0)
